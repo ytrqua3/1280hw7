@@ -1,0 +1,29 @@
+{
+name,ted
+col 1,1
+col 3,6
+col 7,9
+}
+{
+name,bill murray
+col 2,11.0
+col 7,9.0
+col 1,5.0
+}
+{
+name,Gamma Jones
+col 3,11.0
+col 4,7.5
+col 8,9.1
+col 5,5.7
+tal 1,22
+}
+
+{
+name,Logo
+col 3,11.0
+col 6,7.5
+col 5,9.1
+col 4,5.7
+tal 1,23
+}
