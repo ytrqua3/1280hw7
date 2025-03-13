@@ -1,10 +1,23 @@
-headers=$(sed -r '/^[\{\}]$/d' $1 | cut -d"," -f1 | sort | uniq | tr "\n" " ")
 
-read -a columns <<<$headers
+#initialize headers
+headers=$(sed -r '/^[\{\}]$/d' $1 | cut -d"," -f1 | sort | uniq | sed '/^$/d')
+columns=()
+while read line; do
+	columns+=("$line")
+done <<<$headers
 columns+=(result)
 colnums=$(( ${#columns[@]} - 1 ))
-echo ${columns[@]} | tr " " ","
+#print headers
+for i in $(seq 0 $colnums); do
+	if [ $i -eq 0 ]; then
+		echo -n "${columns[$i]}"
+	else
+		echo -n ,"${columns[$i]}"
+	fi
+done
+echo
 
+#print data
 while read line; do
 	if [[ $line == "{" ]]; then
 		data=()
@@ -16,7 +29,7 @@ while read line; do
 		for i in $(seq 0 $(( $colnums - 1 ))); do
 			echo -n "${data[$i]}",
 			if echo "${columns[$i]}" | grep -q $2; then
-				result=$(( $result + "${data[$i]}" ))
+				result=$(echo $result + "${data[$i]}" | bc)
 			fi
 		done
 		echo $result
